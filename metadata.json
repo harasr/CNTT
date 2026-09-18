@@ -1,0 +1,6 @@
+{
+  "name": "Mặt Trái Của CNTT",
+  "description": "Bài thuyết trình siêu thực về tác động của công nghệ thông tin",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
