@@ -73,7 +73,14 @@ export default function App() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (!hasStarted || showIntro) return;
+      if (!hasStarted) {
+        if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowRight') {
+          e.preventDefault();
+          startPresentation();
+        }
+        return;
+      }
+      if (showIntro) return;
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
         e.preventDefault();
         nextSlide();
