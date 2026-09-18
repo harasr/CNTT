@@ -11,7 +11,8 @@ import {
   Minimize2, 
   FastForward, 
   SlidersHorizontal,
-  CheckCircle2
+  CheckCircle2,
+  X
 } from 'lucide-react';
 import { loadVideo, saveVideo, KEY_INTRO } from '../lib/videoStorage';
 
@@ -309,6 +310,14 @@ export function IntroVideoScreen({ onComplete }: Props) {
         ) : (
           /* Empty / Upload State if video is not yet attached */
           <div className="relative z-10 max-w-2xl w-full mx-6 p-8 md:p-12 glass-panel rounded-3xl border border-cyan-500/40 text-center shadow-[0_0_60px_rgba(0,243,255,0.25)] flex flex-col items-center">
+            {/* Close Button */}
+            <button
+              onClick={finishIntro}
+              className="absolute top-5 right-5 p-2 rounded-full glass-panel hover:bg-white/20 text-gray-400 hover:text-white transition-all border border-white/10"
+              title="Đóng / Quay lại Slide (Esc)"
+            >
+              <X className="w-5 h-5" />
+            </button>
             
             {/* KlingAI Cyber Beam Animation Preview */}
             <div className="relative w-28 h-28 rounded-2xl bg-cyan-950/60 border border-cyan-400/40 flex items-center justify-center mb-6 overflow-hidden shadow-[0_0_30px_rgba(0,243,255,0.3)]">

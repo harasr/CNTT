@@ -17,16 +17,23 @@ export default function App() {
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  const startPresentation = async () => {
+  const startPresentation = () => {
     try {
       if (document.documentElement.requestFullscreen) {
-        await document.documentElement.requestFullscreen();
+        document.documentElement.requestFullscreen().catch((err) => {
+          console.log("Fullscreen request was prevented or not supported:", err);
+        });
       }
     } catch (err) {
-      console.log("Fullscreen not supported or blocked", err);
+      console.log("Fullscreen error:", err);
     }
     setHasStarted(true);
-    setShowIntro(true);
+    setShowIntro(false);
+
+    if (audioRef.current && !isMuted) {
+      audioRef.current.volume = 0.5;
+      audioRef.current.play().catch((e) => console.log("Audio play failed:", e));
+    }
   };
 
   const handleIntroComplete = () => {
@@ -119,7 +126,7 @@ export default function App() {
               MẶT TRÁI CỦA CÔNG NGHỆ THÔNG TIN
             </h1>
             <p className="text-base sm:text-lg text-gray-300 mb-8 font-light max-w-lg">
-              Nhấn để vào chế độ toàn màn hình, bắt đầu bằng Video Mở Đầu Cyberpunk và chuyển cảnh mượt mà vào bài thuyết trình.
+              Nhấn để bắt đầu bài thuyết trình với hiệu ứng cyberpunk mượt mà và âm thanh Baby Shark vui nhộn.
             </p>
             <motion.button
               onClick={startPresentation}
@@ -128,7 +135,7 @@ export default function App() {
               className="flex items-center space-x-3 px-8 py-4 bg-cyan-500/20 border border-cyan-400 rounded-full text-cyan-50 font-bold uppercase tracking-wider transition-all"
             >
               <Maximize className="w-5 h-5" />
-              <span>Bắt đầu toàn màn hình</span>
+              <span>Bắt đầu bài thuyết trình</span>
             </motion.button>
           </motion.div>
         </main>
