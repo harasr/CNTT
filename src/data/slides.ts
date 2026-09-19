@@ -19,7 +19,7 @@ export const slides: SlideData[] = [
     title: 'MẶT TRÁI CỦA\nCÔNG NGHỆ THÔNG TIN',
     subtitle: 'Ảo ảnh & Hiện thực: Tác động lên Giáo dục & Xã hội',
     presenter: 'Thành viên: Dương Trung Thành, Nguyễn Tấn Dũng, Trần Gia Huy, Bùi Hoàng Tuấn Khang',
-    bgImage: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1920&q=80',
+    bgImage: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1920&q=80',
     accentColor: 'cyan',
   },
   {
@@ -53,11 +53,16 @@ export const slides: SlideData[] = [
   },
   {
     id: 4,
-    type: 'video',
-    title: 'PHÓNG SỰ VTV1: HITECH CÔNG NGHỆ TƯƠNG LAI',
-    subtitle: 'Hiểm họa tấn công mạng hỗ trợ bởi AI & Thiệt hại gần 18.000 tỷ đồng tại Việt Nam',
+    type: 'content',
+    title: 'PHÓNG SỰ VTV1: CẢNH BÁO TẤN CÔNG MẠNG',
+    subtitle: 'Nguồn: VTV - Hitech Công nghệ tương lai',
+    points: [
+      'Cuộc tấn công mạng với sự hỗ trợ của AI diễn ra ngày càng nhanh, tinh vi và phức tạp.',
+      'Thiệt hại do virus máy tính gây ra cho người dùng Việt Nam lên đến gần 18.000 tỷ đồng (năm 2023).',
+    ],
     highlightMessage: '“Trí tuệ nhân tạo AI cũng chỉ là công nghệ và công cụ do con người nghiên cứu ra. Sử dụng công nghệ này vào việc gì, với mục đích gì mới là điều quan trọng. Và cuối cùng, quyết định điều đó lại chính là con người.”',
-    bgImage: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=1920&q=80',
+    bgImage: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1920&q=80',
+    contentImage: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=80',
     accentColor: 'cyan',
   },
   {

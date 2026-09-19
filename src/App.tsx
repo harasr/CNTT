@@ -17,7 +17,7 @@ export default function App() {
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  const startPresentation = (withIntro = true) => {
+  const startPresentation = () => {
     try {
       if (document.documentElement.requestFullscreen) {
         document.documentElement.requestFullscreen().catch((err) => {
@@ -29,23 +29,14 @@ export default function App() {
     }
     setHasStarted(true);
     
-    if (withIntro) {
-      setShowIntro(true);
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
-    } else {
-      setShowIntro(false);
-      if (audioRef.current && !isMuted) {
-        audioRef.current.volume = 0.5;
-        audioRef.current.play().catch((e) => console.log("Audio play failed:", e));
-      }
+    if (audioRef.current && !isMuted) {
+      audioRef.current.volume = 0.5;
+      audioRef.current.play().catch((e) => console.log("Audio play failed:", e));
     }
   };
 
   const handleIntroComplete = () => {
     setShowIntro(false);
-    // Start background soundtrack once intro finishes and Slide 1 appears
     if (audioRef.current && !isMuted) {
       audioRef.current.volume = 0.5;
       audioRef.current.play().catch(e => console.log("Audio play failed:", e));
@@ -103,7 +94,7 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [hasStarted, showIntro, nextSlide, prevSlide, toggleMute]);
 
-  // Automatically pause background music during video slides or intro, resume on normal slides
+  // Automatically pause background music during intro, resume on normal slides
   useEffect(() => {
     if (!audioRef.current || !hasStarted) return;
     if (showIntro) {
@@ -111,13 +102,8 @@ export default function App() {
       return;
     }
 
-    const currentSlide = slides[currentSlideIndex];
-    if (currentSlide?.type === 'video') {
-      audioRef.current.pause();
-    } else {
-      if (!isMuted) {
-        audioRef.current.play().catch((e) => console.log('Audio resume error:', e));
-      }
+    if (!isMuted) {
+      audioRef.current.play().catch((e) => console.log('Audio resume error:', e));
     }
   }, [currentSlideIndex, hasStarted, showIntro, isMuted]);
 
@@ -139,29 +125,22 @@ export default function App() {
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-glow-cyan mb-6 uppercase tracking-tight">
               MẶT TRÁI CỦA CÔNG NGHỆ THÔNG TIN
             </h1>
-            <p className="text-base sm:text-lg text-gray-300 mb-8 font-light max-w-lg">
-              Nhấn để bắt đầu bài thuyết trình với hiệu ứng cyberpunk mượt mà và âm thanh Baby Shark vui nhộn.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center gap-4">
-              <motion.button
-                onClick={() => startPresentation(true)}
-                whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(0,243,255,0.7)' }}
-                whileTap={{ scale: 0.95 }}
-                className="flex items-center space-x-3 px-10 py-4 bg-cyan-500 hover:bg-cyan-400 text-black font-display font-bold uppercase tracking-wider rounded-full shadow-[0_0_25px_rgba(0,243,255,0.5)] transition-all text-sm"
-              >
-                <Clapperboard className="w-5 h-5" />
-                <span>Bắt đầu thuyết trình</span>
-              </motion.button>
-            </div>
+            <motion.button
+              onClick={() => startPresentation()}
+              whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(0,243,255,0.7)' }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center space-x-3 px-10 py-4 bg-cyan-500 hover:bg-cyan-400 text-black font-display font-bold uppercase tracking-wider rounded-full shadow-[0_0_25px_rgba(0,243,255,0.5)] transition-all text-sm"
+            >
+              <Clapperboard className="w-5 h-5" />
+              <span>Bắt đầu thuyết trình</span>
+            </motion.button>
           </motion.div>
         </main>
-      ) : showIntro ? (
-        <IntroVideoScreen onComplete={handleIntroComplete} />
       ) : (
         <main className="relative w-full h-screen bg-[#050508] overflow-hidden text-white">
           <Mascot slide={slides[currentSlideIndex]} />
 
-          {/* Audio Control & Replay Intro */}
+          {/* Audio Control */}
           <div className="absolute top-8 left-8 z-50 flex items-center space-x-2.5">
             <button 
               onClick={toggleMute}
@@ -171,17 +150,6 @@ export default function App() {
               {isMuted ? <VolumeX className="w-4 h-4 text-red-400" /> : <Volume2 className="w-4 h-4 text-cyan-400" />}
               <span className="text-xs font-mono uppercase tracking-wider text-gray-300 hidden sm:inline">
                 {isMuted ? 'Tắt tiếng' : 'Bật nhạc'}
-              </span>
-            </button>
-
-            <button
-              onClick={restartIntro}
-              className="p-2 sm:px-3 sm:py-2 rounded-full glass-panel hover:bg-white/15 transition-all text-gray-300 hover:text-cyan-300 flex items-center space-x-1.5 border border-white/10 shadow-lg group text-xs font-mono"
-              title="Xem lại video mở đầu Intro Kling AI"
-            >
-              <Clapperboard className="w-4 h-4 text-cyan-400" />
-              <span className="hidden lg:inline text-[11px] text-gray-300 group-hover:text-white">
-                Intro Video
               </span>
             </button>
           </div>
