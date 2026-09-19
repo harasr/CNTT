@@ -46,3 +46,17 @@ export async function loadVideo(key: string = KEY_VTV): Promise<string | null> {
     return null;
   }
 }
+
+export async function hasCustomVideo(key: string): Promise<boolean> {
+  try {
+    const db = await openDB();
+    return new Promise((resolve) => {
+      const tx = db.transaction(STORE_NAME, 'readonly');
+      const req = tx.objectStore(STORE_NAME).get(key);
+      req.onsuccess = () => resolve(req.result instanceof Blob);
+      req.onerror = () => resolve(false);
+    });
+  } catch {
+    return false;
+  }
+}

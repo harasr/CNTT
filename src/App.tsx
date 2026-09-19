@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { Maximize, Volume2, VolumeX, Clapperboard } from 'lucide-react';
+import { Volume2, VolumeX, Clapperboard } from 'lucide-react';
 import { slides } from './data/slides';
 import { Slide } from './components/Slide';
 import { Navigation } from './components/Navigation';
@@ -8,7 +8,7 @@ import { Mascot } from './components/Mascot';
 import { VideoClarityFilter } from './components/VideoClarityFilter';
 import { IntroVideoScreen } from './components/IntroVideoScreen';
 
-const SOUNDTRACK_FILE = '/tracks/babyshark.mp3';
+const SOUNDTRACK_FILE = `${import.meta.env.BASE_URL}tracks/babyshark.mp3`;
 
 export default function App() {
   const [hasStarted, setHasStarted] = useState(false);
@@ -17,7 +17,7 @@ export default function App() {
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  const startPresentation = () => {
+  const startPresentation = (withIntro = true) => {
     try {
       if (document.documentElement.requestFullscreen) {
         document.documentElement.requestFullscreen().catch((err) => {
@@ -28,11 +28,18 @@ export default function App() {
       console.log("Fullscreen error:", err);
     }
     setHasStarted(true);
-    setShowIntro(false);
-
-    if (audioRef.current && !isMuted) {
-      audioRef.current.volume = 0.5;
-      audioRef.current.play().catch((e) => console.log("Audio play failed:", e));
+    
+    if (withIntro) {
+      setShowIntro(true);
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+    } else {
+      setShowIntro(false);
+      if (audioRef.current && !isMuted) {
+        audioRef.current.volume = 0.5;
+        audioRef.current.play().catch((e) => console.log("Audio play failed:", e));
+      }
     }
   };
 
@@ -135,15 +142,17 @@ export default function App() {
             <p className="text-base sm:text-lg text-gray-300 mb-8 font-light max-w-lg">
               Nhấn để bắt đầu bài thuyết trình với hiệu ứng cyberpunk mượt mà và âm thanh Baby Shark vui nhộn.
             </p>
-            <motion.button
-              onClick={startPresentation}
-              whileHover={{ scale: 1.05, boxShadow: '0 0 25px rgba(0,243,255,0.7)' }}
-              whileTap={{ scale: 0.95 }}
-              className="flex items-center space-x-3 px-8 py-4 bg-cyan-500/20 border border-cyan-400 rounded-full text-cyan-50 font-bold uppercase tracking-wider transition-all"
-            >
-              <Maximize className="w-5 h-5" />
-              <span>Bắt đầu bài thuyết trình</span>
-            </motion.button>
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              <motion.button
+                onClick={() => startPresentation(true)}
+                whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(0,243,255,0.7)' }}
+                whileTap={{ scale: 0.95 }}
+                className="flex items-center space-x-3 px-10 py-4 bg-cyan-500 hover:bg-cyan-400 text-black font-display font-bold uppercase tracking-wider rounded-full shadow-[0_0_25px_rgba(0,243,255,0.5)] transition-all text-sm"
+              >
+                <Clapperboard className="w-5 h-5" />
+                <span>Bắt đầu thuyết trình</span>
+              </motion.button>
+            </div>
           </motion.div>
         </main>
       ) : showIntro ? (

@@ -14,8 +14,19 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
   </head>
-  <body>
-    <div id="root"></div>
+  <body style="background-color: #050508; margin: 0; padding: 0; color: #ffffff; overflow: hidden; font-family: system-ui, -apple-system, sans-serif;">
+    <div id="root">
+      <div style="display: flex; height: 100vh; width: 100vw; align-items: center; justify-content: center; background-color: #050508; color: #00f3ff; flex-direction: column; text-align: center; padding: 20px; box-sizing: border-box;">
+        <div style="width: 48px; height: 48px; border: 3px solid rgba(0, 243, 255, 0.2); border-top-color: #00f3ff; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px;"></div>
+        <h2 style="font-size: 20px; letter-spacing: 2px; text-transform: uppercase; margin: 0 0 10px 0; font-family: 'Orbitron', sans-serif;">Mặt Trái Của CNTT</h2>
+        <p style="color: #9ca3af; font-size: 14px; max-width: 400px; margin: 0; line-height: 1.6;">Đang tải bài thuyết trình siêu thực...</p>
+      </div>
+      <style>
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+      </style>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
